@@ -1,6 +1,21 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-app.MapGet("/", () => "Hello World!");
+        //MVCサービスの登録
+        builder.Services.AddMvc();
 
-app.Run();
+        var app = builder.Build();
+
+        //最新の ASP.NET Core MVC だと MapDefaultControllerRoute() じゃなくてこっち？ 
+        app.MapDefaultControllerRoute();
+
+        app.Run(async(context) =>
+        {
+            await context.Response.WriteAsync(
+                "I'd rather say there are no configured routes here.");
+        });
+    }
+}
